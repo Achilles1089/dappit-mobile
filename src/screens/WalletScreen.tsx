@@ -42,7 +42,16 @@ export default function WalletScreen() {
             setLoading(true);
             await connect();
         } catch (err: any) {
-            Alert.alert('Connection Failed', err.message || 'Could not connect to wallet');
+            const msg = err.message || '';
+            if (msg.includes('No compatible') || msg.includes('Found no installed') || msg.includes('No wallet')) {
+                Alert.alert(
+                    'No Wallet App Found',
+                    'Install Phantom or Solflare from the Play Store to connect your Solana wallet.',
+                    [{ text: 'OK' }]
+                );
+            } else {
+                Alert.alert('Connection Failed', msg || 'Could not connect to wallet');
+            }
         } finally {
             setLoading(false);
         }
