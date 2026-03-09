@@ -30,6 +30,14 @@ AI iterates: Updated app with your changes, instantly
 
 The App Builder uses Dappit's cloud AI backend (`dappit.io/api/llmcall`) with Claude Haiku for fast generation (~5-10s), streamed via `XMLHttpRequest` for React Native compatibility.
 
+## 🎬 Demo
+
+<p align="center">
+  <video src="https://github.com/Achilles1089/dappit-mobile/raw/main/assets/dappit-demo.mp4" width="800" autoplay loop muted>
+    Your browser does not support the video tag. <a href="https://github.com/Achilles1089/dappit-mobile/raw/main/assets/dappit-demo.mp4">Download the demo video</a>.
+  </video>
+</p>
+
 ## 📱 Screenshots
 
 <p align="center">
