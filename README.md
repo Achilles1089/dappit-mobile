@@ -116,6 +116,15 @@ src/
     └── useAuthorization.tsx   # Auth state
 ```
 
+## 🎯 Challenges Solved
+
+1. **React Native + Cloudflare** — `fetch()` (OkHttp) fails against Cloudflare Workers. Solved with `XMLHttpRequest` for full streaming compatibility
+2. **Model Registry** — Mobile client needed exact model names from deployed API registry to hit the correct AI endpoint
+3. **Streaming vs Timeout** — Claude Haiku fast enough (~5s) to avoid Cloudflare's 60s gateway timeout, no chunked streaming needed
+4. **SVG in React Native** — Custom brand icons via `react-native-svg` instead of emoji characters for consistent cross-device rendering
+5. **AAPT2 Resource Conflicts** — 3D PNG assets caused duplicate resource compilation errors in release builds. Solved by switching to `MaterialCommunityIcons` fallbacks
+6. **Standalone APK** — Built release APK directly with Gradle (`assembleRelease`) to bypass EAS CLI login requirements
+
 ## 📥 Download
 
 Get the latest release APK and demo video:
