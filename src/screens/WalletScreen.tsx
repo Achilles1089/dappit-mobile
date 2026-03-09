@@ -115,7 +115,7 @@ export default function WalletScreen() {
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); fetchBalance(); }} tintColor={DappitColors.primary} />}
         >
             <View style={styles.header}>
-                <Text style={styles.title}>💳 Wallet</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><DappitIcon name="link" size={24} color={DappitColors.accent} /><Text style={styles.title}>Wallet</Text></View>
                 <Text style={styles.subtitle}>Manage your Solana wallet via MWA</Text>
             </View>
 
