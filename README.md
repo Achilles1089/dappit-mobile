@@ -1,105 +1,155 @@
-# Solana Mobile Expo Template
+# 🤖 Dappit Mobile — Vibe Code from Your Phone
 
-This template is a ready-to-go Android Expo dApp that offers:
+> **The first mobile Web3 vibe coding platform.** Describe an app → AI builds it → Preview it live → Ship it. All from your Android phone.
 
-- Solana libraries: `web3.js`, Mobile Wallet Adapter, and `spl-token`.
-- Required polyfills like `crypto` and `Buffer` configured.
-- Pre-built React UI and re-usable hooks and code patterns like `useMobileWallet`.
+<p align="center">
+  <img src="./assets/dappit-logo-dark.png" alt="Dappit Logo" width="200" />
+</p>
 
-**This is only fully functional on Android.**
+---
 
-<table>
-  <tr>
-    <td align="center">
-      <img src="./screenshots/screenshot1.png" alt="Scaffold dApp Screenshot 1" width=300 />
-    </td>
-    <td align="center">
-      <img src="./screenshots/screenshot2.png" alt="Scaffold dApp Screenshot 2" width=300 />
-    </td>
-    <td align="center">
-      <img src="./screenshots/screenshot3.png" alt="Scaffold dApp Screenshot 3" width=300 />
-    </td>
-  </tr>
-</table>
+## 🚀 What is Dappit Mobile?
 
-## Tech Stack
+Dappit Mobile brings the power of AI-assisted web development to your phone. Built on **Solana Mobile Stack**, it combines:
 
-| Library               | Category          | Version | Description                                           |
-| --------------------- | ----------------- | ------- | ----------------------------------------------------- |
-| React Native          | Mobile Framework  | v0.76   | The best cross-platform mobile framework              |
-| Expo                  | SDK               | v52     | Allows (optional) Expo modules                        |
-| React                 | UI Framework      | v18.3   | The most popular UI framework in the world            |
-| Mobile Wallet Adapter | SDK               | v2.1    | Connect and request signing from mobile wallet apps   |
-| Solana web3.js        | SDK               | v1.78   | General Solana library for transactions and RPCs      |
-| spl-token             | SDK               | v0.4    | Library for building with Solana SPL tokens           |
-| React Native Paper    | Component Library | v5.12   | Production-ready components following Material Design |
-| React Navigation      | Navigation        | v6      | Performant and consistent navigation framework        |
-| React Query           | State management  | v5.24   | Async query management                                |
-| TypeScript            | Language          | v5      | Static typechecking                                   |
-| AsyncStorage          | Persistence       | v1.23   | State persistence                                     |
+- **AI App Builder** — Describe any app in plain English. Dappit's AI (Claude) generates a complete HTML/CSS/JS app in ~5 seconds, rendered live in a WebView
+- **Iterative Vibe Coding** — Don't like it? Type "make it darker" or "add a navbar" and watch it regenerate
+- **Solana Wallet** — Full Mobile Wallet Adapter (MWA) integration with Phantom/Solflare
+- **Token Launcher** — Create and launch tokens on Solana directly from your phone
+- **AI Chat** — Conversational AI assistant for Web3 development questions
 
-## Quick Start
+## ✨ Hero Feature: App Builder
+
+```
+You type:  "Build a crypto portfolio dashboard with live prices"
+AI builds: Complete HTML/CSS/JS app with charts, gradients, dark mode
+You see:   Live preview in WebView, running on your phone
+You say:   "Add a sidebar with wallet balances"  
+AI iterates: Updated app with your changes, instantly
+```
+
+The App Builder uses Dappit's cloud AI backend (`dappit.io/api/llmcall`) with Claude Haiku for fast generation (~5-10s), streamed via `XMLHttpRequest` for React Native compatibility.
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────┐
+│        Dappit Mobile App        │
+│  (React Native + Expo SDK 52)   │
+├─────────────┬───────────────────┤
+│  AI Builder │  Solana Wallet    │
+│  AI Chat    │  Token Launcher   │
+│  Dashboard  │  Account Mgmt    │
+├─────────────┴───────────────────┤
+│        Service Layer            │
+│  AIService (XHR → dappit.io)    │
+│  TokenService (Supabase)        │
+│  MobileWalletAdapter (MWA)      │
+├─────────────────────────────────┤
+│     Solana Mobile Stack         │
+│  web3.js · MWA · spl-token     │
+└─────────────────────────────────┘
+```
+
+## 📱 Screenshots
+
+| Dashboard | App Builder | AI Chat |
+|-----------|-------------|---------|
+| SOL balance, points, hackathon status | Prompt → AI generates → Live preview | Web3 dev assistant powered by Claude |
+
+| Wallet | Token Launcher | Saved Apps |
+|--------|----------------|------------|
+| Phantom/Solflare via MWA | Create tokens on Solana | Save & manage generated apps |
+
+## 🛠 Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| **React Native** (0.76) + **Expo** (SDK 52) | Cross-platform mobile framework |
+| **Solana web3.js** | Blockchain transactions & RPC |
+| **Mobile Wallet Adapter** (MWA v2) | Phantom/Solflare wallet integration |
+| **React Native Paper** (Material Design 3) | Premium UI components |
+| **React Native SVG** | Brand icon rendering |
+| **WebView** | Live HTML/CSS/JS preview |
+| **react-native-svg** | Custom brand SVG icons |
+| **AsyncStorage** | Local project persistence |
+| **Dappit Cloud API** | AI code generation (Claude Haiku) |
+| **TypeScript** | Type-safe development |
+
+## 🔧 Custom Components
+
+- **`DappitIcon`** — Brand icon system with SVG robot mascot, hex logo, 3D brand PNGs, and MaterialCommunityIcons
+- **`AIService`** — XMLHttpRequest-based API client (not `fetch()`) for Cloudflare compatibility on React Native Android
+- **`BuilderScreen`** — Full vibe coding flow: prompt → presets → generate → preview → iterate → save
+- **`useMobileWallet`** — MWA hook for connect, sign, and send transactions
+
+## 🚀 Quick Start
 
 ### Prerequisites
+- Node.js 18+
+- Android device with USB debugging enabled
+- JDK 17 + Android SDK 34
+- Phantom or Solflare wallet app installed on device
 
-- A free [Expo](https://expo.dev/) account.
-- An Android device/emulator to test your app
-  - Install an MWA compliant wallet app on your device/emulator.
-- If using Expo's cloud service `eas build`, no further setup is required.
-- If building locally:
-  - React Native and Android Envrionment [setup](https://docs.solanamobile.com/getting-started/development-setup)
+### Development
 
-### Initialize
+```bash
+# Clone
+git clone https://github.com/Achilles1089/dappit-mobile.git
+cd dappit-mobile
 
-Run the CLI command:
+# Install dependencies
+npm install
+
+# Generate native project
+npx expo prebuild --platform android
+
+# Build and install on device
+npx expo run:android --device
+
+# Start Metro dev server
+npx expo start --dev-client
+```
+
+### Key Files
 
 ```
-yarn create expo-app --template @solana-mobile/solana-mobile-expo-template
+src/
+├── screens/
+│   ├── BuilderScreen.tsx      # AI App Builder (hero feature)
+│   ├── AIChatScreen.tsx       # AI Chat assistant
+│   ├── DashboardScreen.tsx    # Home dashboard
+│   ├── WalletScreen.tsx       # Solana wallet (MWA)
+│   ├── TokenLauncherScreen.tsx # Token creation
+│   └── LoginScreen.tsx        # Auth flow
+├── components/
+│   └── DappitIcon.tsx         # Brand icon system
+├── services/
+│   ├── ai.ts                  # AI API client (XHR)
+│   ├── api.ts                 # Axios config
+│   └── token.ts               # Token/points service
+├── theme/
+│   └── colors.ts              # Brand color system
+└── utils/
+    ├── useMobileWallet.tsx    # MWA hook
+    └── useAuthorization.tsx   # Auth state
 ```
 
-Choose your project name then navigate into the directory.
+## 🎯 Hackathon Notes
 
-### Build and run the app
+### Challenges Solved
+1. **React Native + Cloudflare** — `fetch()` (OkHttp) fails against Cloudflare. Solved with `XMLHttpRequest`
+2. **Model Registry** — Mobile client needed exact model names from deployed API registry
+3. **Streaming vs Timeout** — Haiku fast enough (~5s) to avoid Cloudflare's 60s gateway timeout
+4. **SVG in React Native** — Custom brand icons via `react-native-svg` instead of emoji characters
 
-Once your app is initialized, follow the **["Running the app"](https://docs.solanamobile.com/react-native/expo#running-the-app)** guide to launch the template as a custom development build.
+### What Makes This Special
+- **First mobile vibe coding platform** — no laptop needed, build apps from your phone
+- **Native Solana integration** — not a web wrapper, real MWA wallet signing
+- **Production AI backend** — powered by Dappit's live cloud infrastructure at `dappit.io`
 
-## Troubleshooting
+---
 
-- `Metro has encountered an error: While trying to resolve module @solana-mobile/mobile-wallet-adapter-protocol...`
-
-  - This is an on-going issue when using `npm install` to install the Expo template.
-  - To mitigate, clean your project dependencies and reinstall with `yarn install`
-
-- `The package 'solana-mobile-wallet-adapter-protocol' doesn't seem to be linked. Make sure: ...`
-
-  - Ensure you are _NOT_ using Expo Go to run your app.
-  - You need to be using an [Expo custom development build](https://docs.solanamobile.com/react-native/expo#custom-development-build), rather than Expo Go.
-
-- `failed to connect to...`
-
-  - This is an Expo error that can occur when trying to connect to the dev server on certain Wifi networks.
-  - To fix, try starting the dev server with the `--tunnel` command (`npx expo start --dev-client --tunnel`)
-
-- `Error: crypto.getRandomValues() not supported`
-  - This is a polyfill issue when trying to use certain functions from the `@solana/web3.js` in a React Native/Expo environment.
-  - To fix, ensure your App properly imports and uses the polyfills like in this [guide](http://docs.solanamobile.com/react-native/expo#step-3-update-appjs-with-polyfills).
-
-<br>
-
-- `error Failed to load configuration of your project.`
-  - Same as above, but for `yarn`. [Uninstall and reinstall](https://github.com/react-native-community/cli#updating-the-cli) the CLI through yarn.
-
-<br>
-
-- `Looks like your iOS environment is not properly set`:
-  - You can ignore this during template initialization and build the Android app as normal. This template is only compatible with Android.
-
-<br>
-
-- `Usage Error: It seems you are trying to add a package using a https:... url; we now require package names to be explicitly specified.`
-  - This error happens on certain versions of `yarn`, and occurs if you try to initialize the template through the Github repo URL, rather than the npm package. To avoid this, use the `@solana-mobile/solana-mobile-dapp-scaffold` package as specified, or downgrade your `yarn` version to classic (1.22.x).
-
-<br>
-
-- `error Couldn't find the ".../@solana-mobile/solana-mobile-dapp-scaffold/template.config.js file inside "@solana-mobile/solana-mobile-dapp-scaffold" template.`
-  - This is a [known error](https://github.com/react-native-community/cli/issues/1924) that occurs with certain versions of `yarn` (>= 3.5.0). It is fixed by running the cli command with the `--npm` flag or downgrading your version of `yarn`.
+<p align="center">
+  Built with 🔥 by <a href="https://dappit.io">Dappit</a> — The First Web3 Vibe Coding Platform
+</p>
