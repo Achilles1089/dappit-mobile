@@ -160,7 +160,7 @@ export default function BuilderScreen() {
             <ScrollView style={styles.container}>
                 <View style={styles.header}>
                     <View style={styles.headerRow}>
-                        <Text style={styles.title}><DappitIcon name="folder" size={22} /> My Apps</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><DappitIcon name="folder" size={22} /><Text style={styles.title}>My Apps</Text></View>
                         <IconButton
                             icon="close"
                             iconColor={DappitColors.textSecondary}
