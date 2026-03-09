@@ -8,8 +8,9 @@ import {
     ScrollView,
     Alert,
     Pressable,
+    Image,
 } from 'react-native';
-import { Text, Button, ActivityIndicator } from 'react-native-paper';
+import { Text, Button } from 'react-native-paper';
 import { DappitColors, DappitSpacing, DappitFontSizes } from '../theme/colors';
 import { useAuth } from '../context/AuthContext';
 
@@ -27,6 +28,7 @@ export default function LoginScreen({ navigation }: any) {
         try {
             setLoading(true);
             await login(email.trim(), password);
+            navigation.reset({ index: 0, routes: [{ name: 'HomeStack' }] });
         } catch (err: any) {
             Alert.alert(
                 'Login Failed',
@@ -45,9 +47,14 @@ export default function LoginScreen({ navigation }: any) {
             <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
                 {/* Hero */}
                 <View style={styles.hero}>
-                    <Text style={styles.logo}>🚀</Text>
+                    <Image
+                        source={require('../../assets/dappit-logo.png')}
+                        style={styles.logo}
+                        resizeMode="contain"
+                    />
                     <Text style={styles.title}>Dappit</Text>
-                    <Text style={styles.subtitle}>The First Web3 Vibe Coding Platform</Text>
+                    <Text style={styles.tagline}>The First Web3 Vibe Coding Platform</Text>
+                    <View style={styles.glowLine} />
                 </View>
 
                 {/* Form */}
@@ -84,22 +91,29 @@ export default function LoginScreen({ navigation }: any) {
                         disabled={loading}
                         style={styles.loginButton}
                         labelStyle={styles.loginButtonLabel}
-                        buttonColor={DappitColors.primary}
+                        buttonColor={DappitColors.accent}
                     >
                         Log In
                     </Button>
 
                     <Pressable onPress={() => navigation.navigate('Signup')} disabled={loading}>
                         <Text style={styles.switchText}>
-                            Don't have an account? <Text style={styles.switchLink}>Sign Up</Text>
+                            Don't have an account?{' '}
+                            <Text style={styles.switchLink}>Sign Up</Text>
                         </Text>
                     </Pressable>
 
                     {/* Skip auth option */}
-                    <Pressable onPress={() => navigation.navigate('HomeStack')} style={styles.skipButton}>
+                    <Pressable
+                        onPress={() => navigation.reset({ index: 0, routes: [{ name: 'HomeStack' }] })}
+                        style={styles.skipButton}
+                    >
                         <Text style={styles.skipText}>Skip for now →</Text>
                     </Pressable>
                 </View>
+
+                {/* Footer */}
+                <Text style={styles.footer}>Powered by Dappit · Solana Mobile</Text>
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -117,22 +131,35 @@ const styles = StyleSheet.create({
     },
     hero: {
         alignItems: 'center',
-        marginBottom: DappitSpacing.xxl,
+        marginBottom: DappitSpacing.xl,
     },
     logo: {
-        fontSize: 64,
+        width: 100,
+        height: 100,
         marginBottom: DappitSpacing.md,
     },
     title: {
-        fontSize: 36,
+        fontSize: DappitFontSizes.hero,
         fontWeight: '900',
         color: DappitColors.textPrimary,
         letterSpacing: -1,
     },
-    subtitle: {
+    tagline: {
         fontSize: DappitFontSizes.body,
-        color: DappitColors.textSecondary,
+        color: DappitColors.accent,
         marginTop: DappitSpacing.xs,
+        fontWeight: '500',
+    },
+    glowLine: {
+        width: 60,
+        height: 3,
+        backgroundColor: DappitColors.accent,
+        borderRadius: 2,
+        marginTop: DappitSpacing.md,
+        shadowColor: DappitColors.accent,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.8,
+        shadowRadius: 8,
     },
     form: {
         width: '100%',
@@ -162,6 +189,7 @@ const styles = StyleSheet.create({
     loginButtonLabel: {
         fontSize: DappitFontSizes.subtitle,
         fontWeight: '700',
+        color: DappitColors.background,
     },
     switchText: {
         color: DappitColors.textSecondary,
@@ -170,7 +198,7 @@ const styles = StyleSheet.create({
         marginTop: DappitSpacing.lg,
     },
     switchLink: {
-        color: DappitColors.primary,
+        color: DappitColors.accent,
         fontWeight: '700',
     },
     skipButton: {
@@ -180,5 +208,11 @@ const styles = StyleSheet.create({
     skipText: {
         color: DappitColors.textMuted,
         fontSize: DappitFontSizes.body,
+    },
+    footer: {
+        textAlign: 'center',
+        color: DappitColors.textMuted,
+        fontSize: DappitFontSizes.caption,
+        marginTop: DappitSpacing.xxl,
     },
 });

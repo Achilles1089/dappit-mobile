@@ -1,70 +1,95 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React from "react";
-import { TopBar } from "../components/top-bar/top-bar-feature";
-import MaterialCommunityIcon from "@expo/vector-icons/MaterialCommunityIcons";
-import { DappitColors } from "../theme/colors";
+/**
+ * HomeNavigator — 6-tab bottom navigation with Dappit branding
+ */
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { DappitColors, DappitFontSizes } from '../theme/colors';
 
-import DashboardScreen from "../screens/DashboardScreen";
-import TokenLauncherScreen from "../screens/TokenLauncherScreen";
-import AIChatScreen from "../screens/AIChatScreen";
-import WalletScreen from "../screens/WalletScreen";
-import ProfileScreen from "../screens/ProfileScreen";
+import DashboardScreen from '../screens/DashboardScreen';
+import BuilderScreen from '../screens/BuilderScreen';
+import TokenLauncherScreen from '../screens/TokenLauncherScreen';
+import AIChatScreen from '../screens/AIChatScreen';
+import WalletScreen from '../screens/WalletScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
 export function HomeNavigator() {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        header: () => <TopBar />,
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: DappitColors.tabBarActive,
+        tabBarInactiveTintColor: DappitColors.tabBarInactive,
         tabBarStyle: {
-          backgroundColor: DappitColors.surface,
+          backgroundColor: DappitColors.tabBarBg,
           borderTopColor: DappitColors.border,
           borderTopWidth: 1,
           height: 60,
-          paddingBottom: 8,
+          paddingBottom: 6,
           paddingTop: 4,
         },
-        tabBarActiveTintColor: DappitColors.primary,
-        tabBarInactiveTintColor: DappitColors.textMuted,
         tabBarLabelStyle: {
-          fontSize: 11,
+          fontSize: 10,
           fontWeight: '600',
         },
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName: string = 'help';
-          switch (route.name) {
-            case 'Dashboard':
-              iconName = focused ? 'view-dashboard' : 'view-dashboard-outline';
-              break;
-            case 'Launch':
-              iconName = focused ? 'rocket-launch' : 'rocket-launch-outline';
-              break;
-            case 'AI Chat':
-              iconName = focused ? 'robot' : 'robot-outline';
-              break;
-            case 'Wallet':
-              iconName = focused ? 'wallet' : 'wallet-outline';
-              break;
-            case 'Profile':
-              iconName = focused ? 'account-circle' : 'account-circle-outline';
-              break;
-          }
-          return (
-            <MaterialCommunityIcon
-              name={iconName as any}
-              size={size}
-              color={color}
-            />
-          );
-        },
-      })}
+      }}
     >
-      <Tab.Screen name="Dashboard" component={DashboardScreen} />
-      <Tab.Screen name="Launch" component={TokenLauncherScreen} />
-      <Tab.Screen name="AI Chat" component={AIChatScreen} />
-      <Tab.Screen name="Wallet" component={WalletScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen
+        name="Dashboard"
+        component={DashboardScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="view-dashboard" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Builder"
+        component={BuilderScreen}
+        options={{
+          tabBarLabel: 'Build',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="lightning-bolt" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Launch"
+        component={TokenLauncherScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="rocket-launch" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="AI Chat"
+        component={AIChatScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="robot" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Wallet"
+        component={WalletScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="wallet" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account-circle" color={color} size={size} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
