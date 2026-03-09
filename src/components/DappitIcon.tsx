@@ -5,7 +5,7 @@
  * and MaterialCommunityIcons for contextual icons.
  */
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import Svg, { Path, Rect, Defs, LinearGradient, Stop } from 'react-native-svg';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { DappitColors } from '../theme/colors';
@@ -59,15 +59,11 @@ const ICON_MAP: Record<string, string> = {
     wave: 'hand-wave',
     link: 'link-variant',
     sign: 'draw-pen',
-};
-
-// Map icon names to 3D PNG assets
-const IMAGE_MAP: Record<string, any> = {
-    website: require('../../assets/icon-website-3d.png'),
-    dapp: require('../../assets/icon-dapp-3d.png'),
-    portfolio: require('../../assets/icon-portfolio.png'),
-    'token-dash': require('../../assets/icon-token-dash.png'),
-    mobile: require('../../assets/icon-mobile-3d.png'),
+    website: 'web',
+    dapp: 'application-brackets-outline',
+    portfolio: 'briefcase-outline',
+    'token-dash': 'chart-timeline-variant',
+    mobile: 'cellphone',
 };
 
 export function DappitIcon({ name, size = 24, color }: DappitIconProps) {
@@ -81,18 +77,7 @@ export function DappitIcon({ name, size = 24, color }: DappitIconProps) {
         return <DappitHexIcon size={size} />;
     }
 
-    // 3D image assets
-    if (IMAGE_MAP[name]) {
-        return (
-            <Image
-                source={IMAGE_MAP[name]}
-                style={{ width: size, height: size }}
-                resizeMode="contain"
-            />
-        );
-    }
-
-    // MaterialCommunityIcons fallback
+    // MaterialCommunityIcons
     const iconName = ICON_MAP[name];
     if (iconName) {
         return <MaterialCommunityIcons name={iconName as any} size={size} color={iconColor} />;
