@@ -11,12 +11,13 @@ import {
 import { Text, Card, ActivityIndicator, IconButton } from 'react-native-paper';
 import { DappitColors, DappitSpacing, DappitFontSizes } from '../theme/colors';
 import { AIService, ChatMessage } from '../services/ai';
+import { DappitIcon } from '../components/DappitIcon';
 
 export default function AIChatScreen() {
     const [messages, setMessages] = useState<ChatMessage[]>([
         {
             role: 'assistant',
-            content: '👋 Hey! I\'m Dappit AI. Ask me anything about Solana development, token launches, or Web3 building. I\'m powered by Claude and live on Dappit\'s cloud backend.',
+            content: 'Hey! I\'m Dappit AI. Ask me anything about Solana development, token launches, or Web3 building. I\'m powered by Claude and live on Dappit\'s cloud backend.',
         },
     ]);
     const [input, setInput] = useState('');
@@ -39,7 +40,7 @@ export default function AIChatScreen() {
         } catch (err: any) {
             const errorMessage: ChatMessage = {
                 role: 'assistant',
-                content: `❌ Error: ${err.message || 'Failed to reach Dappit AI. Check your connection.'}`,
+                content: `Error: ${err.message || 'Failed to reach Dappit AI. Check your connection.'}`,
             };
             setMessages(prev => [...prev, errorMessage]);
         } finally {
@@ -52,7 +53,7 @@ export default function AIChatScreen() {
         <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             {/* Header */}
             <View style={styles.header}>
-                <Text style={styles.title}>🤖 Dappit AI</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><DappitIcon name="logo" size={28} /><Text style={styles.title}>Dappit AI</Text></View>
                 <Text style={styles.subtitle}>Powered by Claude · Dappit Cloud</Text>
             </View>
 

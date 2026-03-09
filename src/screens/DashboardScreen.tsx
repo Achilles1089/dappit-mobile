@@ -6,6 +6,7 @@ import { useAuthorization, Account } from '../utils/useAuthorization';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { DappitColors, DappitSpacing, DappitFontSizes } from '../theme/colors';
 import { TokenService } from '../services/token';
+import { DappitIcon } from '../components/DappitIcon';
 
 export default function DashboardScreen() {
     const { connection } = useConnection();
@@ -30,7 +31,7 @@ export default function DashboardScreen() {
 
             // Fetch hackathon status
             const hackathon = await TokenService.getHackathonStatus();
-            setHackathonStatus(hackathon.entry ? 'Registered ✅' : 'Not Registered');
+            setHackathonStatus(hackathon.entry ? 'Registered' : 'Not Registered');
         } catch (err) {
             console.log('Dashboard fetch error:', err);
         } finally {
@@ -64,7 +65,7 @@ export default function DashboardScreen() {
         >
             {/* Hero Card */}
             <Surface style={styles.heroCard}>
-                <Text style={styles.heroTitle}>🚀 Dappit</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }}><DappitIcon name="logo" size={36} /><Text style={styles.heroTitle}>Dappit</Text></View>
                 <Text style={styles.heroSubtitle}>The First Web3 Vibe Coding Platform</Text>
             </Surface>
 
@@ -98,12 +99,13 @@ export default function DashboardScreen() {
                         <Text style={styles.statLabel}>Hackathon</Text>
                         <Chip
                             style={{
-                                backgroundColor: hackathonStatus?.includes('✅')
+                                backgroundColor: hackathonStatus?.includes('Registered') && !hackathonStatus?.includes('Not')
                                     ? DappitColors.success + '20'
                                     : DappitColors.warning + '20',
                                 marginTop: DappitSpacing.xs,
                             }}
-                            textStyle={{ color: hackathonStatus?.includes('✅') ? DappitColors.success : DappitColors.warning, fontSize: 11 }}
+                            textStyle={{ color: hackathonStatus?.includes('Registered') && !hackathonStatus?.includes('Not') ? DappitColors.success : DappitColors.warning, fontSize: 11 }}
+                            icon={() => hackathonStatus?.includes('Registered') && !hackathonStatus?.includes('Not') ? <DappitIcon name="check" size={14} color={DappitColors.success} /> : <DappitIcon name="alert" size={14} color={DappitColors.warning} />}
                         >
                             {hackathonStatus ?? '...'}
                         </Chip>

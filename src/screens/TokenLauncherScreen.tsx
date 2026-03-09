@@ -6,6 +6,7 @@ import { useConnection } from '../utils/ConnectionProvider';
 import { useAuthorization } from '../utils/useAuthorization';
 import { useMobileWallet } from '../utils/useMobileWallet';
 import { TokenService } from '../services/token';
+import { DappitIcon } from '../components/DappitIcon';
 import {
     Transaction,
     SystemProgram,
@@ -68,7 +69,7 @@ export default function TokenLauncherScreen() {
             setStage('success');
             setResult({ signature });
             Alert.alert(
-                '🚀 Transaction Sent!',
+                'Transaction Sent!',
                 `Signature: ${signature.slice(0, 20)}...`,
                 [{ text: 'OK' }]
             );
@@ -93,7 +94,7 @@ export default function TokenLauncherScreen() {
             <ScrollView contentContainerStyle={styles.scrollContent}>
                 {/* Header */}
                 <View style={styles.header}>
-                    <Text style={styles.title}>🚀 Token Launcher</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><DappitIcon name="rocket" size={26} color={DappitColors.accent} /><Text style={styles.title}>Token Launcher</Text></View>
                     <Text style={styles.subtitle}>Create & launch tokens on Solana</Text>
                 </View>
 
@@ -118,11 +119,11 @@ export default function TokenLauncherScreen() {
                                                 DappitColors.info,
                                 }}
                             >
-                                {stage === 'uploading' ? '📤 Uploading metadata...' :
-                                    stage === 'signing' ? '✍️ Sign in wallet...' :
-                                        stage === 'confirming' ? '⏳ Confirming on-chain...' :
-                                            stage === 'success' ? '✅ Token launched!' :
-                                                '❌ Failed'}
+                                {stage === 'uploading' ? 'Uploading metadata...' :
+                                    stage === 'signing' ? 'Sign in wallet...' :
+                                        stage === 'confirming' ? 'Confirming on-chain...' :
+                                            stage === 'success' ? 'Token launched!' :
+                                                'Failed'}
                             </Chip>
                         </Card.Content>
                     </Card>
@@ -188,7 +189,7 @@ export default function TokenLauncherScreen() {
                         labelStyle={styles.launchButtonLabel}
                         buttonColor={DappitColors.primary}
                     >
-                        🚀 Launch Token
+                        Launch Token
                     </Button>
                 ) : stage === 'success' || stage === 'failed' ? (
                     <Button
@@ -204,7 +205,7 @@ export default function TokenLauncherScreen() {
 
                 {!selectedAccount && (
                     <Text style={styles.warningText}>
-                        ⚠️ Connect your wallet in the Wallet tab first
+                        Connect your wallet in the Wallet tab first
                     </Text>
                 )}
             </ScrollView>

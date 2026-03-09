@@ -7,6 +7,7 @@ import { useMobileWallet } from '../utils/useMobileWallet';
 import { useConnection } from '../utils/ConnectionProvider';
 import { LAMPORTS_PER_SOL, Transaction, SystemProgram, PublicKey } from '@solana/web3.js';
 import * as Clipboard from 'expo-clipboard';
+import { DappitIcon } from '../components/DappitIcon';
 
 export default function WalletScreen() {
     const { selectedAccount, accounts, authorizeSession, deauthorizeSession } = useAuthorization();
@@ -65,7 +66,7 @@ export default function WalletScreen() {
                 1 * LAMPORTS_PER_SOL
             );
             await connection.confirmTransaction(signature, 'confirmed');
-            Alert.alert('✅ Airdrop Success', '1 SOL has been airdropped to your wallet (devnet)');
+            Alert.alert('Airdrop Success', '1 SOL has been airdropped to your wallet (devnet)');
             fetchBalance();
         } catch (err: any) {
             Alert.alert('Airdrop Failed', err.message || 'Airdrop failed — may only work on devnet');
@@ -99,7 +100,7 @@ export default function WalletScreen() {
             );
             const { context: txContext } = await connection.getLatestBlockhashAndContext('confirmed');
             const sig = await signAndSendTransaction(tx, txContext.slot);
-            Alert.alert('✅ Transaction Sent', `Signature: ${sig.slice(0, 20)}...`);
+            Alert.alert('Transaction Sent', `Signature: ${sig.slice(0, 20)}...`);
             fetchBalance();
         } catch (err: any) {
             Alert.alert('Error', err.message || 'Transaction failed');
@@ -183,7 +184,7 @@ export default function WalletScreen() {
                 /* Not Connected */
                 <Card style={styles.connectCard}>
                     <Card.Content style={styles.connectContent}>
-                        <Text style={styles.connectEmoji}>🔗</Text>
+                        <DappitIcon name="link" size={48} color={DappitColors.accent} />
                         <Text style={styles.connectTitle}>Connect Your Wallet</Text>
                         <Text style={styles.connectSubtitle}>
                             Use Mobile Wallet Adapter to connect Phantom, Solflare, or any MWA-compatible wallet

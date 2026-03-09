@@ -15,6 +15,7 @@ import { WebView } from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DappitColors, DappitSpacing, DappitFontSizes } from '../theme/colors';
 import { AIService } from '../services/ai';
+import { DappitIcon } from '../components/DappitIcon';
 
 const SAVED_APPS_KEY = '@dappit_saved_apps';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -30,11 +31,11 @@ interface SavedApp {
 }
 
 const TECH_PRESETS = [
-    { label: '🌐 Landing Page', prompt: 'Create a modern landing page with' },
-    { label: '📊 Dashboard', prompt: 'Build a data dashboard with' },
-    { label: '🪙 Solana dApp', prompt: 'Build a Solana dApp that' },
-    { label: '🛒 Store', prompt: 'Create an e-commerce storefront with' },
-    { label: '📝 Portfolio', prompt: 'Design a developer portfolio site with' },
+    { label: 'Landing Page', icon: 'globe' as const, prompt: 'Create a modern landing page with' },
+    { label: 'Dashboard', icon: 'chart' as const, prompt: 'Build a data dashboard with' },
+    { label: 'Solana dApp', icon: 'coin' as const, prompt: 'Build a Solana dApp that' },
+    { label: 'Store', icon: 'store' as const, prompt: 'Create an e-commerce storefront with' },
+    { label: 'Portfolio', icon: 'file-doc' as const, prompt: 'Design a developer portfolio site with' },
 ];
 
 const VIBE_SYSTEM_PROMPT = `You are Dappit's Vibe Coder — an expert frontend developer. 
@@ -77,7 +78,7 @@ export default function BuilderScreen() {
             code = code.replace(/```html\n?/gi, '').replace(/```\n?/g, '').trim();
 
             if (!code.includes('<!DOCTYPE') && !code.includes('<html')) {
-                code = `<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:system-ui;background:#0a1628;color:#F1F5F9;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}h1{color:#00D9C4}</style></head><body><h1>⚠️ Generation Error</h1><p>The AI didn't return valid HTML. Try again with a more specific prompt.</p></body></html>`;
+                code = `<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:system-ui;background:#0a1628;color:#F1F5F9;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}h1{color:#00D9C4}</style></head><body><h1>Generation Error</h1><p>The AI didn't return valid HTML. Try again with a more specific prompt.</p></body></html>`;
             }
 
             setGeneratedCode(code);
@@ -125,7 +126,7 @@ export default function BuilderScreen() {
             const apps: SavedApp[] = existing ? JSON.parse(existing) : [];
             apps.unshift(app);
             await AsyncStorage.setItem(SAVED_APPS_KEY, JSON.stringify(apps));
-            Alert.alert('✅ Saved!', `"${name}" saved to your projects`);
+            Alert.alert('Saved!', `"${name}" saved to your projects`);
             setAppName('');
         } catch (err) {
             Alert.alert('Error', 'Could not save app');
@@ -159,7 +160,7 @@ export default function BuilderScreen() {
             <ScrollView style={styles.container}>
                 <View style={styles.header}>
                     <View style={styles.headerRow}>
-                        <Text style={styles.title}>📂 My Apps</Text>
+                        <Text style={styles.title}><DappitIcon name="folder" size={22} /> My Apps</Text>
                         <IconButton
                             icon="close"
                             iconColor={DappitColors.textSecondary}
@@ -171,7 +172,7 @@ export default function BuilderScreen() {
                 {savedApps.length === 0 ? (
                     <Card style={styles.emptyCard}>
                         <Card.Content style={styles.emptyContent}>
-                            <Text style={styles.emptyEmoji}>🏗️</Text>
+                            <DappitIcon name="hammer" size={48} color={DappitColors.textMuted} />
                             <Text style={styles.emptyTitle}>No saved apps yet</Text>
                             <Text style={styles.emptySubtitle}>Build your first app and save it here!</Text>
                         </Card.Content>
@@ -293,7 +294,8 @@ export default function BuilderScreen() {
         return (
             <View style={styles.generatingContainer}>
                 <ActivityIndicator size="large" color={DappitColors.accent} />
-                <Text style={styles.generatingText}>✨ Vibe coding your app...</Text>
+                <DappitIcon name="sparkle" size={32} color={DappitColors.accent} />
+                <Text style={styles.generatingText}>Vibe coding your app...</Text>
                 <Text style={styles.generatingSubtext}>AI is generating your code</Text>
             </View>
         );
@@ -307,7 +309,7 @@ export default function BuilderScreen() {
         >
             <ScrollView contentContainerStyle={styles.promptContent} keyboardShouldPersistTaps="handled">
                 <View style={styles.header}>
-                    <Text style={styles.title}>⚡ App Builder</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><DappitIcon name="bolt" size={26} color={DappitColors.accent} /><Text style={styles.title}>App Builder</Text></View>
                     <Text style={styles.subtitle}>Describe your app — AI builds it instantly</Text>
                 </View>
 
@@ -320,6 +322,7 @@ export default function BuilderScreen() {
                             style={styles.presetChip}
                             textStyle={styles.presetChipText}
                             mode="outlined"
+                            icon={() => <DappitIcon name={preset.icon} size={16} color={DappitColors.accent} />}
                         >
                             {preset.label}
                         </Chip>
@@ -357,7 +360,7 @@ export default function BuilderScreen() {
 
                 {/* My Apps */}
                 <Pressable onPress={loadSavedApps} style={styles.myAppsButton}>
-                    <Text style={styles.myAppsText}>📂 My Saved Apps</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><DappitIcon name="folder" size={16} color={DappitColors.accent} /><Text style={styles.myAppsText}>My Saved Apps</Text></View>
                 </Pressable>
             </ScrollView>
         </KeyboardAvoidingView>
