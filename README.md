@@ -30,36 +30,17 @@ AI iterates: Updated app with your changes, instantly
 
 The App Builder uses Dappit's cloud AI backend (`dappit.io/api/llmcall`) with Claude Haiku for fast generation (~5-10s), streamed via `XMLHttpRequest` for React Native compatibility.
 
-## 🏗️ Architecture
-
-```
-┌─────────────────────────────────┐
-│        Dappit Mobile App        │
-│  (React Native + Expo SDK 52)   │
-├─────────────┬───────────────────┤
-│  AI Builder │  Solana Wallet    │
-│  AI Chat    │  Token Launcher   │
-│  Dashboard  │  Account Mgmt    │
-├─────────────┴───────────────────┤
-│        Service Layer            │
-│  AIService (XHR → dappit.io)    │
-│  TokenService (Supabase)        │
-│  MobileWalletAdapter (MWA)      │
-├─────────────────────────────────┤
-│     Solana Mobile Stack         │
-│  web3.js · MWA · spl-token     │
-└─────────────────────────────────┘
-```
-
 ## 📱 Screenshots
 
-| Dashboard | App Builder | AI Chat |
-|-----------|-------------|---------|
-| SOL balance, points, hackathon status | Prompt → AI generates → Live preview | Web3 dev assistant powered by Claude |
+<p align="center">
+  <img src="./assets/screenshots.png" alt="Dappit Mobile Screenshots" width="800" />
+</p>
 
-| Wallet | Token Launcher | Saved Apps |
-|--------|----------------|------------|
-| Phantom/Solflare via MWA | Create tokens on Solana | Save & manage generated apps |
+## 🏗️ Architecture
+
+<p align="center">
+  <img src="./assets/architecture.png" alt="Dappit Architecture" width="700" />
+</p>
 
 ## 🛠 Tech Stack
 
@@ -69,19 +50,10 @@ The App Builder uses Dappit's cloud AI backend (`dappit.io/api/llmcall`) with Cl
 | **Solana web3.js** | Blockchain transactions & RPC |
 | **Mobile Wallet Adapter** (MWA v2) | Phantom/Solflare wallet integration |
 | **React Native Paper** (Material Design 3) | Premium UI components |
-| **React Native SVG** | Brand icon rendering |
 | **WebView** | Live HTML/CSS/JS preview |
-| **react-native-svg** | Custom brand SVG icons |
 | **AsyncStorage** | Local project persistence |
 | **Dappit Cloud API** | AI code generation (Claude Haiku) |
 | **TypeScript** | Type-safe development |
-
-## 🔧 Custom Components
-
-- **`DappitIcon`** — Brand icon system with SVG robot mascot, hex logo, 3D brand PNGs, and MaterialCommunityIcons
-- **`AIService`** — XMLHttpRequest-based API client (not `fetch()`) for Cloudflare compatibility on React Native Android
-- **`BuilderScreen`** — Full vibe coding flow: prompt → presets → generate → preview → iterate → save
-- **`useMobileWallet`** — MWA hook for connect, sign, and send transactions
 
 ## 🚀 Quick Start
 
@@ -111,6 +83,15 @@ npx expo run:android --device
 npx expo start --dev-client
 ```
 
+### Release APK
+
+```bash
+# Build standalone release APK (no dev server needed)
+npx expo prebuild --platform android --clean --no-install
+cd android && ./gradlew :app:assembleRelease
+# APK at: android/app/build/outputs/apk/release/app-release.apk
+```
+
 ### Key Files
 
 ```
@@ -135,18 +116,11 @@ src/
     └── useAuthorization.tsx   # Auth state
 ```
 
-## 🎯 Hackathon Notes
+## 📥 Download
 
-### Challenges Solved
-1. **React Native + Cloudflare** — `fetch()` (OkHttp) fails against Cloudflare. Solved with `XMLHttpRequest`
-2. **Model Registry** — Mobile client needed exact model names from deployed API registry
-3. **Streaming vs Timeout** — Haiku fast enough (~5s) to avoid Cloudflare's 60s gateway timeout
-4. **SVG in React Native** — Custom brand icons via `react-native-svg` instead of emoji characters
+Get the latest release APK and demo video:
 
-### What Makes This Special
-- **First mobile vibe coding platform** — no laptop needed, build apps from your phone
-- **Native Solana integration** — not a web wrapper, real MWA wallet signing
-- **Production AI backend** — powered by Dappit's live cloud infrastructure at `dappit.io`
+**[Download v1.0.0 →](https://github.com/Achilles1089/dappit-mobile/releases/tag/v1.0.0)**
 
 ---
 
