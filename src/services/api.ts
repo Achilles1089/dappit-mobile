@@ -1,11 +1,11 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_BASE_URL = 'https://dappit-d5e.pages.dev';
+const API_BASE_URL = 'https://dappit.io';
 
 const api = axios.create({
     baseURL: API_BASE_URL,
-    timeout: 30000,
+    timeout: 60000,
     headers: {
         'Content-Type': 'application/json',
     },

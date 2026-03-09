@@ -69,10 +69,8 @@ export default function BuilderScreen() {
         try {
             setStage('generating');
             let code = await AIService.chat(
-                `${VIBE_SYSTEM_PROMPT}\n\nUser Request: ${finalPrompt}`,
-                VIBE_SYSTEM_PROMPT,
-                'claude-sonnet-4-20250514',
-                'Anthropic'
+                finalPrompt,
+                VIBE_SYSTEM_PROMPT
             );
 
             // Clean up markdown fences if present
@@ -85,8 +83,13 @@ export default function BuilderScreen() {
             setGeneratedCode(code);
             setStage('preview');
         } catch (err: any) {
-            setStage('error');
-            Alert.alert('Build Failed', err.message || 'AI generation failed');
+            setStage('prompt');
+            const status = err.response?.status;
+            if (status === 401) {
+                Alert.alert('Login Required', 'Please log in from the Profile tab to use the App Builder.');
+            } else {
+                Alert.alert('Build Failed', `Error ${status || ''}: ${err.response?.data?.error || err.message || 'AI generation failed'}`);
+            }
         }
     };
 
@@ -95,18 +98,16 @@ export default function BuilderScreen() {
         try {
             setStage('generating');
             let code = await AIService.chat(
-                `${VIBE_SYSTEM_PROMPT}\n\nHere is the current code:\n${generatedCode}\n\nUser wants to modify it: ${iteratePrompt}\n\nReturn the COMPLETE updated HTML file.`,
-                VIBE_SYSTEM_PROMPT,
-                'claude-sonnet-4-20250514',
-                'Anthropic'
+                `Here is the current code:\n${generatedCode}\n\nUser wants to modify it: ${iteratePrompt}\n\nReturn the COMPLETE updated HTML file.`,
+                VIBE_SYSTEM_PROMPT
             );
             code = code.replace(/```html\n?/gi, '').replace(/```\n?/g, '').trim();
             setGeneratedCode(code);
             setIteratePrompt('');
             setStage('preview');
         } catch (err: any) {
-            setStage('preview'); // Stay on preview even if iterate fails
-            Alert.alert('Error', err.message || 'Iteration failed');
+            setStage('preview');
+            Alert.alert('Error', err.response?.data?.error || err.message || 'Iteration failed');
         }
     };
 
