@@ -33,9 +33,11 @@ The App Builder uses Dappit's cloud AI backend (`dappit.io/api/llmcall`) with Cl
 ## 🎬 Demo
 
 <p align="center">
-  <video src="https://github.com/Achilles1089/dappit-mobile/raw/main/assets/dappit-demo.mp4" width="800" autoplay loop muted>
-    Your browser does not support the video tag. <a href="https://github.com/Achilles1089/dappit-mobile/raw/main/assets/dappit-demo.mp4">Download the demo video</a>.
-  </video>
+  <a href="https://github.com/Achilles1089/dappit-mobile/raw/main/assets/dappit-demo.mp4">
+    <img src="./assets/screenshots.png" alt="Watch Demo Video" width="700" />
+    <br />
+    <b>▶ Watch Demo Video</b>
+  </a>
 </p>
 
 ## 📱 Screenshots
