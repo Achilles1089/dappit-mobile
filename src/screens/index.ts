@@ -5,3 +5,5 @@ export { default as TokenLauncherScreen } from "./TokenLauncherScreen";
 export { default as AIChatScreen } from "./AIChatScreen";
 export { default as WalletScreen } from "./WalletScreen";
 export { default as ProfileScreen } from "./ProfileScreen";
+export { default as LoginScreen } from "./LoginScreen";
+export { default as SignupScreen } from "./SignupScreen";

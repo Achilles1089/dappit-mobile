@@ -1,6 +1,5 @@
 /**
- * The app navigator (formerly "AppNavigator" and "MainNavigator") is used for the primary
- * navigation flows of your app.
+ * AppNavigator — Root navigation with auth + home stacks
  */
 import {
   DarkTheme as NavigationDarkTheme,
@@ -9,9 +8,7 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { Appearance, useColorScheme } from "react-native";
-import * as Screens from "../screens";
-import { HomeNavigator } from "./HomeNavigator";
+import { useColorScheme } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import {
   MD3DarkTheme,
@@ -19,50 +16,49 @@ import {
   adaptNavigationTheme,
 } from "react-native-paper";
 
-/**
- * This type allows TypeScript to know what routes are defined in this navigator
- * as well as what properties (if any) they might take when navigating to them.
- *
- * If no params are allowed, pass through `undefined`.
- *
- * For more information, see this documentation:
- *   https://reactnavigation.org/docs/params/
- *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
- *   https://reactnavigation.org/docs/typescript/#organizing-types
- *
- */
+import * as Screens from "../screens";
+import { HomeNavigator } from "./HomeNavigator";
+import LoginScreen from "../screens/LoginScreen";
+import SignupScreen from "../screens/SignupScreen";
+import { DappitColors } from "../theme/colors";
 
 type RootStackParamList = {
-  Home: undefined;
+  Login: undefined;
+  Signup: undefined;
+  HomeStack: undefined;
   Settings: undefined;
-  // 🔥 Your screens go here
 };
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    interface RootParamList extends RootStackParamList { }
   }
 }
 
-// Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator();
 
 const AppStack = () => {
   return (
-    <Stack.Navigator initialRouteName={"Home"}>
-      <Stack.Screen
-        name="HomeStack"
-        component={HomeNavigator}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen name="Settings" component={Screens.SettingsScreen} />
-      {/** 🔥 Your screens go here */}
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: DappitColors.background },
+      }}
+    >
+      {/* Auth screens */}
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Signup" component={SignupScreen} />
+
+      {/* Main app */}
+      <Stack.Screen name="HomeStack" component={HomeNavigator} />
+      <Stack.Screen name="Settings" component={Screens.SettingsScreen} options={{ headerShown: true }} />
     </Stack.Navigator>
   );
 };
 
 export interface NavigationProps
-  extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
+  extends Partial<React.ComponentProps<typeof NavigationContainer>> { }
 
 export const AppNavigator = (props: NavigationProps) => {
   const colorScheme = useColorScheme();
@@ -93,7 +89,7 @@ export const AppNavigator = (props: NavigationProps) => {
       theme={colorScheme === "dark" ? CombinedDarkTheme : CombinedDefaultTheme}
       {...props}
     >
-      <StatusBar />
+      <StatusBar style="light" />
       <AppStack />
     </NavigationContainer>
   );

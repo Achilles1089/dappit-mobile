@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import { Text, Card, Button, Chip, Divider, ActivityIndicator } from 'react-native-paper';
 import { DappitColors, DappitSpacing, DappitFontSizes } from '../theme/colors';
-import { AuthService, AuthUser } from '../services/auth';
+import { useAuth } from '../context/AuthContext';
 import { TokenService } from '../services/token';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 
 export default function ProfileScreen() {
-    const [user, setUser] = useState<AuthUser | null>(null);
+    const { user, isLoggedIn, logout } = useAuth();
+    const navigation = useNavigation();
     const [credits, setCredits] = useState(0);
     const [plan, setPlan] = useState('free');
     const [hackathon, setHackathon] = useState<any>(null);
@@ -14,13 +16,14 @@ export default function ProfileScreen() {
 
     useEffect(() => {
         loadProfile();
-    }, []);
+    }, [isLoggedIn]);
 
     const loadProfile = async () => {
+        if (!isLoggedIn) {
+            setLoading(false);
+            return;
+        }
         try {
-            const me = await AuthService.getMe();
-            setUser(me);
-
             const tokens = await TokenService.getBalance();
             setCredits(tokens.credits);
             setPlan(tokens.plan);
@@ -55,14 +58,25 @@ export default function ProfileScreen() {
                 text: 'Logout',
                 style: 'destructive',
                 onPress: async () => {
-                    await AuthService.logout();
-                    setUser(null);
-                    setCredits(0);
-                    setPlan('free');
-                    setHackathon(null);
+                    await logout();
+                    navigation.dispatch(
+                        CommonActions.reset({
+                            index: 0,
+                            routes: [{ name: 'Login' }],
+                        })
+                    );
                 },
             },
         ]);
+    };
+
+    const handleGoToLogin = () => {
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'Login' }],
+            })
+        );
     };
 
     if (loading) {
@@ -80,7 +94,7 @@ export default function ProfileScreen() {
                 <Text style={styles.subtitle}>Your Dappit account</Text>
             </View>
 
-            {user ? (
+            {isLoggedIn && user ? (
                 <>
                     {/* User Info Card */}
                     <Card style={styles.card}>
@@ -171,9 +185,14 @@ export default function ProfileScreen() {
                         <Text style={styles.loginSubtitle}>
                             Log in to your Dappit account to access credits, hackathon status, and more.
                         </Text>
-                        <Text style={styles.loginHint}>
-                            Use your dappit.io credentials
-                        </Text>
+                        <Button
+                            mode="contained"
+                            onPress={handleGoToLogin}
+                            buttonColor={DappitColors.primary}
+                            style={{ borderRadius: 12, marginTop: DappitSpacing.lg }}
+                        >
+                            Go to Login
+                        </Button>
                     </Card.Content>
                 </Card>
             )}
@@ -301,10 +320,5 @@ const styles = StyleSheet.create({
         color: DappitColors.textSecondary,
         textAlign: 'center',
         lineHeight: 20,
-    },
-    loginHint: {
-        fontSize: DappitFontSizes.caption,
-        color: DappitColors.textMuted,
-        marginTop: DappitSpacing.md,
     },
 });
